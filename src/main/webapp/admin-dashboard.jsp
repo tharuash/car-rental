@@ -84,6 +84,19 @@
             <!-- /top navigation -->
 
             <!-- page content -->
+             <c:if test="${error!=null}">
+                    <div class="alert-cs alert-cs-danger">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <c:out value="${error}"></c:out>
+                    </div>
+                </c:if>
+			<c:if test="${success!=null}">
+                    <div class="alert-cs alert-cs-success">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <c:out value="${success}"></c:out>
+                    </div>
+                </c:if>
+
             <div class="right_col" role="main">
 
 
@@ -187,7 +200,7 @@
     <script>
         function loadVehicleDetails(id) {
             $.ajax({
-                url : "http://localhost:8080/car-rental-system//get-vehicle?vehicleId=" + id,
+                url : "http://localhost:8081/car-rental-system//get-vehicle?vehicleId=" + id,
                 type : 'GET',
                 dataType : 'json',
                 success : function(res) {

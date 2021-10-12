@@ -111,3 +111,39 @@ form {
 .booking_table tbody tr {
     border-bottom: 2px solid #000;
 }
+
+/* The alert message box */
+.alert-cs {
+    padding: 20px;
+    color: white;
+    width: 40%;
+    z-index: 100;
+    position: absolute;
+    top: 80px;
+    right: 10px;
+}
+
+.alert-cs-danger {
+    background-color: #f44336;
+}
+
+.alert-cs-success {
+    background-color: #2196F3;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}

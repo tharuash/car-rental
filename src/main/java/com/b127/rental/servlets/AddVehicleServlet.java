@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.Vehicle;
 import com.b127.rental.services.VehicleService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +23,7 @@ public class AddVehicleServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
         getServletContext().getRequestDispatcher("/add-vehicle.jsp").forward(req, resp);
     }
 
@@ -37,9 +40,9 @@ public class AddVehicleServlet extends HttpServlet {
         );
 
         if(vehicleService.addVehicle(vehicle)) {
-            resp.sendRedirect("admin");
+            resp.sendRedirect("admin?code=" + ActionMessage.VEHICLE_ADD_SUCCEED.getId());
         } else {
-            resp.sendRedirect("admin?error=vehicle_adding_failed");
+            resp.sendRedirect("add-vehicle?code=" + ActionMessage.VEHICLE_ADD_FAILED.getId());
         }
     }
 }

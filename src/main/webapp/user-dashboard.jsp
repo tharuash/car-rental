@@ -219,7 +219,7 @@
             let userId = <c:out value='${sessionScope.id}'/>
 
             $.ajax({
-            	url : "http://localhost:8080/car-rental-system/details?vehicleId=" + id + "&userId=<c:out value='${sessionScope.id}'/>",
+            	url : "http://localhost:8081/car-rental-system/details?vehicleId=" + id + "&userId=<c:out value='${sessionScope.id}'/>",
             		type : 'GET',
             		dataType : 'json',
             		success : function(res) {

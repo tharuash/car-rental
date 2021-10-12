@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.Vehicle;
 import com.b127.rental.services.UserDashboardService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,8 @@ public class UserDashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
+
         req.setAttribute("vehicles", userDashboardService.getAllVehicles());
         getServletContext().getRequestDispatcher("/user-dashboard.jsp").forward(req, resp);
     }
@@ -34,6 +38,7 @@ public class UserDashboardServlet extends HttpServlet {
                 Integer.parseInt(req.getParameter("capacity")));
 
         req.setAttribute("vehicles", filteredVehicles);
+        if(filteredVehicles.size() == 0) req.setAttribute("error", ActionMessage.NO_VEHICLE_AVAILABLE.getMessage());
         getServletContext().getRequestDispatcher("/user-dashboard.jsp").forward(req, resp);
     }
 }

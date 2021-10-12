@@ -20,12 +20,16 @@
         </div>
     </nav>
     <c:if test="${error!=null}">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <c:out value="${error}"></c:out>
-            <!--button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button-->
+        <div class="alert-cs alert-cs-danger">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+         <c:out value="${error}"></c:out>
         </div>
+<c:if test="${success!=null}">
+        <div class="alert-cs alert-cs-success">
+                       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <c:out value="${success}"></c:out>
+                     </div>
+                 </c:if>
     </c:if>
     <div class="global-container">
         <div class="card login-form">

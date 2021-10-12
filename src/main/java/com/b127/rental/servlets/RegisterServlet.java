@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.User;
 import com.b127.rental.services.AuthService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 import com.b127.rental.util.UserRoles;
 
 import javax.servlet.ServletException;
@@ -22,9 +24,8 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getParameter("error") != null){
-            req.setAttribute("error" , "Invalid email or password");
-        }
+        ActionBinder.bindActionMessages(req);
+
         getServletContext().getRequestDispatcher("/register.jsp").forward(req, resp);
     }
 
@@ -40,9 +41,9 @@ public class RegisterServlet extends HttpServlet {
         );
 
         if(authService.register(user)) {
-            resp.sendRedirect("login");
+            resp.sendRedirect("login?code=" + ActionMessage.REGISTRATION_SUCCEED.getId());
         } else {
-            resp.sendRedirect("register?error=email_already_used");
+            resp.sendRedirect("register?code=" + ActionMessage.USED_EMAIL_ERROR.getId());
         }
     }
 }

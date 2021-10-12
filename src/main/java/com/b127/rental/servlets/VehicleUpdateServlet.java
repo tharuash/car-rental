@@ -2,6 +2,7 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.Vehicle;
 import com.b127.rental.services.VehicleService;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,9 +33,9 @@ public class VehicleUpdateServlet extends HttpServlet {
         );
 
         if(vehicleService.updateVehicle(vehicle, Long.parseLong(req.getParameter("vehicleId")))) {
-            resp.sendRedirect("admin");
+            resp.sendRedirect("admin?code="+ ActionMessage.VEHICLE_UPDATE_SUCCEED.getId());
         } else {
-            resp.sendRedirect("admin?error=vehicle_update_failed");
+            resp.sendRedirect("admin?code="+ ActionMessage.VEHICLE_UPDATE_FAILED.getId());
         }
     }
 }

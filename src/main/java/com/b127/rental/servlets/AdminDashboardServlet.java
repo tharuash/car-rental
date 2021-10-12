@@ -1,6 +1,8 @@
 package com.b127.rental.servlets;
 
 import com.b127.rental.services.VehicleService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,8 @@ public class AdminDashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
+
         req.setAttribute("vehicles", vehicleService.getAllVehicles());
         getServletContext().getRequestDispatcher("/admin-dashboard.jsp").forward(req, resp);
     }

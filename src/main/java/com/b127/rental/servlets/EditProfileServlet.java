@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.User;
 import com.b127.rental.services.AuthService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 import com.b127.rental.util.UserRoles;
 
 import javax.servlet.ServletException;
@@ -22,6 +24,8 @@ public class EditProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
+
         String role = (String) req.getSession().getAttribute("role");
         req.setAttribute("user", authService.getUser((long)req.getSession().getAttribute("id")));
 
@@ -46,9 +50,9 @@ public class EditProfileServlet extends HttpServlet {
                 "",""
         );
         if(authService.editProfile(user)){
-            resp.sendRedirect("edit-profile?success=true");
+            resp.sendRedirect("edit-profile?code=" + ActionMessage.PROFILE_UPDATE_SUCCEED.getId());
         } else {
-            resp.sendRedirect("edit-profile?error=editing_failed");
+            resp.sendRedirect("edit-profile?code=" + ActionMessage.PROFILE_UPDATE_FAILED.getId() );
         }
     }
 }

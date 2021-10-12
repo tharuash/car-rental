@@ -1,6 +1,7 @@
 package com.b127.rental.servlets;
 
 import com.b127.rental.services.VehicleService;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,9 +22,9 @@ public class DeleteVehicleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(vehicleService.deleteVehicle(Long.parseLong(req.getParameter("vehicleId")))) {
-            resp.sendRedirect("admin");
+            resp.sendRedirect("admin?code=" + ActionMessage.VEHICLE_DELETE_SUCCEED.getId());
         } else {
-            resp.sendRedirect("admin?error=vehicle_delete_failed");
+            resp.sendRedirect("admin?code=" + ActionMessage.VEHICLE_DELETE_FAILED.getId());
         }
     }
 }

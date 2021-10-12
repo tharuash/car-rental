@@ -1,6 +1,7 @@
 package com.b127.rental.servlets;
 
 import com.b127.rental.services.BookingService;
+import com.b127.rental.util.ActionMessage;
 import com.b127.rental.util.BookingStates;
 
 import javax.servlet.ServletException;
@@ -22,9 +23,9 @@ public class ApproveBookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(bookingService.updateBookingState(Long.parseLong(req.getParameter("bookingId")),BookingStates.APPROVED)){
-            resp.sendRedirect("to");
+            resp.sendRedirect("to?code=" + ActionMessage.BOOKING_STATE_UPDATED.getId());
         } else {
-            resp.sendRedirect("to?error=approving_failed");
+            resp.sendRedirect("to?code=" + ActionMessage.BOOKING_STATE_UPDATING_FAILED.getId());
         }
     }
 }

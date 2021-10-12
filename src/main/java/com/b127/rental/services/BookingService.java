@@ -13,6 +13,7 @@ import com.b127.rental.util.BookingStates;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 public class BookingService extends AbstractService{
 
@@ -51,6 +52,11 @@ public class BookingService extends AbstractService{
     }
 
     public boolean updateBookingState(long bookingId, String bookingState) {
+        Optional<Booking> optionalBooking = bookingDao.getById(bookingId);
+        if(optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            if(booking.getBookingState().equals(BookingStates.CANCELLED)) booking.setBookingState(BookingStates.CANCELLED);
+        };
         return bookingDao.updateBookingsState(bookingId, bookingState);
     }
 

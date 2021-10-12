@@ -1,6 +1,7 @@
 package com.b127.rental.servlets;
 
 import com.b127.rental.services.BookingService;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,9 +28,9 @@ public class AddBookingServlet extends HttpServlet {
                 (long)req.getSession().getAttribute("id"),
                 Long.parseLong(req.getParameter("vehicleId"))
         )){
-            resp.sendRedirect("get-bookings");
+            resp.sendRedirect("get-bookings?code=" + ActionMessage.BOOKING_ADD_SUCCEED.getId());
         } else {
-            resp.sendRedirect("user?error=true");
+            resp.sendRedirect("user?code=" + ActionMessage.BOOKING_ADD_FAILED.getId());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.b127.rental.servlets;
 
 import com.b127.rental.services.BookingService;
+import com.b127.rental.util.ActionBinder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,8 @@ public class GetBookingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
+
         req.setAttribute("bookings", bookingService.getBookingsByCustomerId((long)req.getSession().getAttribute("id")));
         getServletContext().getRequestDispatcher("/customer-bookings.jsp").forward(req, resp);
     }

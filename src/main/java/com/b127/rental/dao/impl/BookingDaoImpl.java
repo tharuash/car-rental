@@ -2,6 +2,7 @@ package com.b127.rental.dao.impl;
 
 import com.b127.rental.dao.BookingDao;
 import com.b127.rental.entity.Booking;
+import com.b127.rental.entity.Vehicle;
 import com.b127.rental.modal.BookingModel;
 import com.b127.rental.util.DbUtil;
 import org.apache.log4j.LogManager;
@@ -54,7 +55,35 @@ public class BookingDaoImpl extends AbstractDaoImpl implements BookingDao {
 
     @Override
     public Optional<Booking> getById(long id) {
-        return Optional.empty();
+        String sql = "SELECT * FROM bookings WHERE id = ? LIMIT 1";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Optional<Booking> optionalBooking = Optional.empty();
+        try {
+            preparedStatement = super.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                Booking booking = new Booking(resultSet.getLong("id"),
+                        null,
+                        null,
+                        resultSet.getDate("booked_from").toLocalDate(),
+                        resultSet.getDate("booked_to").toLocalDate(),
+                        resultSet.getInt("no_of_vehicles"),
+                        resultSet.getDouble("price"),
+                        resultSet.getString("state"));
+                optionalBooking = Optional.of(booking);
+                logger.debug("Booking found for id " + id);
+            } else {
+                logger.debug("No Booking found for id " + id);
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage());
+        } finally {
+            closeResources(preparedStatement, resultSet);
+        }
+        return optionalBooking;
     }
 
     @Override
@@ -71,7 +100,7 @@ public class BookingDaoImpl extends AbstractDaoImpl implements BookingDao {
     @Override
     public List<BookingModel> getBookingsByUserId(long userId) {
         String sql = "SELECT b.id, b.booked_from, b.booked_to, v.reg_no, b.total_price, b.state FROM bookings b" +
-                " INNER JOIN vehicles v ON b.vehicle_id = v.id WHERE b.user_id = ? AND b.state != 'PAID'";
+                " INNER JOIN vehicles v ON b.vehicle_id = v.id WHERE b.user_id = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<BookingModel> bookings = new ArrayList<>();

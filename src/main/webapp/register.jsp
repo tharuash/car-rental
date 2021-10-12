@@ -20,6 +20,18 @@
             <a class="navbar-brand" href="#">Logo Here</a>
         </div>
     </nav>
+            <c:if test="${error!=null}">
+                     <div class="alert-cs alert-cs-danger">
+                       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <c:out value="${error}"></c:out>
+                     </div>
+                 </c:if>
+ 			<c:if test="${success!=null}">
+                     <div class="alert-cs alert-cs-success">
+                       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <c:out value="${success}"></c:out>
+                     </div>
+                 </c:if>
     <div class="global-container">
         <div class="card login-form">
             <div class="card-body">

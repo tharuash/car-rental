@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.User;
 import com.b127.rental.services.LoginService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +25,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getParameter("error") != null){
-            req.setAttribute("error" , "Invalid email or password");
-        }
+        ActionBinder.bindActionMessages(req);
         getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         Optional<User> incomingUser = loginService.loginUser(req.getParameter("email"), req.getParameter("password"));
 
         if(incomingUser.isEmpty()) {
-            resp.sendRedirect("login?error=true");
+            resp.sendRedirect("login?code=" + ActionMessage.INVALID_EMAIL_OR_PASSWORD.getId());
         } else {
             HttpSession session = req.getSession();
             session.setAttribute("id" , incomingUser.get().getId());

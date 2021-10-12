@@ -2,6 +2,8 @@ package com.b127.rental.servlets;
 
 import com.b127.rental.entity.User;
 import com.b127.rental.services.AuthService;
+import com.b127.rental.util.ActionBinder;
+import com.b127.rental.util.ActionMessage;
 import com.b127.rental.util.UserRoles;
 
 import javax.servlet.ServletException;
@@ -22,6 +24,7 @@ public class AddTechnicalOfficerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ActionBinder.bindActionMessages(req);
         getServletContext().getRequestDispatcher("/add-to.jsp").forward(req, resp);
     }
 
@@ -37,9 +40,9 @@ public class AddTechnicalOfficerServlet extends HttpServlet {
         );
 
         if(authService.register(user)) {
-            resp.sendRedirect("add-to");
+            resp.sendRedirect("add-to?code="+ ActionMessage.TO_ADD_SUCCEED.getId());
         } else {
-            resp.sendRedirect("add-to?error=to_adding_failed");
+            resp.sendRedirect("add-to?code="+ ActionMessage.TO_ADD_FAILED.getId());
         }
     }
 }

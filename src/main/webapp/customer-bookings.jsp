@@ -22,6 +22,17 @@
     <!-- Custom Theme Style -->
     <link href="css/custom.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+	<style>
+        .form-btn {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .inline-form {
+            margin-top : 0px;
+            padding-top : 0px;
+        }
+    </style>
 </head>
 
 <body class="nav-md">
@@ -84,6 +95,18 @@
             <!-- /top navigation -->
 
             <!-- page content -->
+			<c:if test="${error!=null}">
+                    <div class="alert-cs alert-cs-danger">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <c:out value="${error}"></c:out>
+                    </div>
+                </c:if>
+			<c:if test="${success!=null}">
+                    <div class="alert-cs alert-cs-success">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                     <c:out value="${success}"></c:out>
+                    </div>
+                </c:if>
             <div class="right_col" role="main">
 
                 <table class="booking_table">
@@ -104,11 +127,18 @@
                             <td>LKR <c:out value="${booking.price}"/></td>
                             <td><c:out value="${booking.state}"/></td>
                             <td>
-                                <div class="">
+                                <div class="row">
+
                                 <c:if test="${booking.state == 'APPROVED'}">
-                                    <button type="button" class="btn btn-primary" onclick="loadPayModal(<c:out value="${booking.bookingId}"/>)">PAY</button>
+                                    <button type="button" class="btn btn-primary" style="margin-top:10px" onclick="loadPayModal(<c:out value="${booking.bookingId}"/>)">PAY</button>
                                 </c:if>
-                                    <button class="btn btn-danger">CANCEL</button>
+
+								<c:if test="${booking.state != 'CANCELLED'}">
+								<form class="inline-form" action="${pageContext.request.contextPath}/reject-booking" method="post">
+                                    <input type="hidden" value="<c:out value="${booking.bookingId}"/>" name="bookingId"/>
+                                   <button class="btn btn-danger form-btn">REJECT</button>
+                                 </form>
+                                 </c:if>
                                 </div>
                             </td>
                         </tr>
